@@ -4,6 +4,7 @@
     {
         static Random random = new Random();
 
+        ConsoleColor[] colors;
         bool infinite;
         int rows;
         int interval;
@@ -17,6 +18,12 @@
             this.interval = interval;
             this.minChance = minChance;
             this.maxChance = maxChance;
+            this.colors = new ConsoleColor[] { ConsoleColor.Blue, ConsoleColor.White, ConsoleColor.Cyan, ConsoleColor.DarkBlue };
+        }
+
+        public ConsoleColor GetColor()
+        {
+            return colors[random.Next(0, colors.Length)];
         }
 
         public char GetFlake(double chance)
@@ -41,21 +48,24 @@
                 flakes += GetFlake(chance);
             }
 
-            return flakes;
+            return flakes += '\n';
         }
 
-        void PrintScreen(List<String> screen)
+        void PrintScreen(List<Tuple<string, ConsoleColor>> screen)
         {
-            string wholeScreen = string.Join('\n', screen);
             Console.SetCursorPosition(0, 0);
-            Console.Write(wholeScreen);
+            foreach (Tuple<string, ConsoleColor> pair in screen)
+            {
+                Console.ForegroundColor = pair.Item2;
+                Console.Write(pair.Item1);
+            }
         }
 
         public void Run()
         {
             int currentRow = 0;
 
-            List<string> screen = new List<string>();
+            List<Tuple<string, ConsoleColor>> screen = new List<Tuple<string, ConsoleColor>>();
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
 
@@ -67,7 +77,7 @@
 
                 }
 
-                screen.Insert(0, GetRow(width));
+                screen.Insert(0, new Tuple<string, ConsoleColor>(GetRow(width), GetColor()));
                 PrintScreen(screen);
 
                 Thread.Sleep(interval);
