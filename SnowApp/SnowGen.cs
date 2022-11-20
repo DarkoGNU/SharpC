@@ -1,4 +1,7 @@
-﻿namespace SnowApp
+﻿using System.Reflection.PortableExecutable;
+using System.Runtime.CompilerServices;
+
+namespace SnowApp
 {
     class SnowGen
     {
@@ -23,7 +26,7 @@
 
         public ConsoleColor GetColor()
         {
-            return colors[random.Next(0, colors.Length)];
+            return colors[random.Next(0, colors.Count() - 1)];
         }
 
         public char GetFlake(double chance)
@@ -36,6 +39,18 @@
             }
 
             return ' ';
+        }
+
+        public List<ConsoleColor> GetColors(int characters)
+        {
+            List<ConsoleColor> colors = new List<ConsoleColor>();
+
+            for (int i = 0; i < characters; i++)
+            {
+                colors.Add(GetColor());
+            }
+
+            return colors;
         }
 
         public string GetRow(int characters)
@@ -51,13 +66,19 @@
             return flakes += '\n';
         }
 
-        void PrintScreen(List<Tuple<string, ConsoleColor>> screen)
+        void PrintScreen(List<string> screen, List<List<ConsoleColor>> colors)
         {
             Console.SetCursorPosition(0, 0);
-            foreach (Tuple<string, ConsoleColor> pair in screen)
+
+            var linesAndColorLists = screen.Zip(colors, (line, colorList) => new { Line = line, ColorList = colorList });
+            foreach (var lineAndColorList in linesAndColorLists)
             {
-                Console.ForegroundColor = pair.Item2;
-                Console.Write(pair.Item1);
+                var charsAndColors = lineAndColorList.Line.Zip(lineAndColorList.ColorList, (character, color) => new { Character = character, Color = color });
+                foreach (var charAndColor in charsAndColors)
+                {
+                    Console.ForegroundColor = charAndColor.Color;
+                    Console.Write(charAndColor.Character);
+                }
             }
         }
 
@@ -65,7 +86,9 @@
         {
             int currentRow = 0;
 
-            List<Tuple<string, ConsoleColor>> screen = new List<Tuple<string, ConsoleColor>>();
+            List<string> screen = new List<string>();
+            List<List<ConsoleColor>> screenColors = new List<List<ConsoleColor>>();
+
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
 
@@ -74,11 +97,13 @@
                 if (screen.Count > height)
                 {
                     screen.RemoveAt(screen.Count - 1);
-
+                    screenColors.RemoveAt(screenColors.Count - 1);
                 }
 
-                screen.Insert(0, new Tuple<string, ConsoleColor>(GetRow(width), GetColor()));
-                PrintScreen(screen);
+                screen.Insert(0, GetRow(width));
+                screenColors.Insert(0, GetColors(width));
+
+                PrintScreen(screen, screenColors);
 
                 Thread.Sleep(interval);
             }
