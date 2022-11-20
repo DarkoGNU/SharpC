@@ -94,7 +94,7 @@ namespace SnowApp
 
             while (infinite || currentRow++ < rows)
             {
-                if (screen.Count > height)
+                if (screen.Count >= height)
                 {
                     screen.RemoveAt(screen.Count - 1);
                     screenColors.RemoveAt(screenColors.Count - 1);
