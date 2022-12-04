@@ -1,8 +1,6 @@
 using static Tools;
 
 abstract public class Zwierze {
-    static Random random = new Random();
-
     private static int maxId = 0;
     private int id;
     private int wiek;
