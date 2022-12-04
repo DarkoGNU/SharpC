@@ -1,6 +1,6 @@
 using static Tools;
 
-abstract class Zwierze {
+abstract public class Zwierze {
     static Random random = new Random();
 
     private static int maxId = 0;
@@ -36,10 +36,16 @@ abstract class Zwierze {
     }
 
     public string Opis() {
-        return gatunek + ", " + Plec() + ", " + gromada + ".";
+        return string.Format("Gatunek: {0}, gromada: {1}, wiek: {2} lat, płeć: {3}, waga: {4:0.###} kg, ID: {5}", gatunek, gromada, wiek, Plec(), waga, id);
     }
 
     public string Plec() {
-        return samiec ? "Samiec" : "Samica";
+        return samiec ? "samiec" : "samica";
+    }
+
+    // Terminal.Gui - ListView
+    public override string ToString()
+    {
+        return Opis();
     }
 }
