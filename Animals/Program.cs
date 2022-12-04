@@ -1,4 +1,7 @@
-﻿using static Tools;
+﻿using Terminal.Gui;
 
-Zoo mojeZoo = new Zoo(250);
-mojeZoo.Menu();
+// Uruchom aplikację
+Application.Run<Zoo> ();
+
+// Zamknij aplikację
+Application.Shutdown ();
