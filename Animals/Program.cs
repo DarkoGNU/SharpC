@@ -4,7 +4,7 @@
 Application.Init();
 
 // Uruchom aplikację
-Application.Run<Zoo> ();
+Application.Run<Zoo>();
 
 // Zamknij aplikację
-Application.Shutdown ();
+Application.Shutdown();

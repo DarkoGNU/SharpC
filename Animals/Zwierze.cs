@@ -1,6 +1,7 @@
 using static Tools;
 
-abstract public class Zwierze {
+abstract public class Zwierze
+{
     private static int maxId = 0;
     private int id;
     private int wiek;
@@ -10,7 +11,8 @@ abstract public class Zwierze {
     private string gatunek;
     private string gromada;
 
-    public Zwierze(int wiek, double waga, string gatunek, string gromada) {
+    public Zwierze(int wiek, double waga, string gatunek, string gromada)
+    {
         maxId += 1;
         id = maxId;
         samiec = RandBool();
@@ -21,23 +23,28 @@ abstract public class Zwierze {
         this.gromada = gromada;
     }
 
-    public int GetWiek() {
+    public int GetWiek()
+    {
         return wiek;
     }
 
-    public double GetWaga() {
+    public double GetWaga()
+    {
         return waga;
     }
 
-    public double Nakarm() {
+    public double Nakarm()
+    {
         return waga * apetyt;
     }
 
-    public string Opis() {
+    public string Opis()
+    {
         return string.Format("Gatunek: {0}, gromada: {1}, wiek: {2} lat, płeć: {3}, waga: {4:0.###} kg, ID: {5}", gatunek, gromada, wiek, Plec(), waga, id);
     }
 
-    public string Plec() {
+    public string Plec()
+    {
         return samiec ? "samiec" : "samica";
     }
 
