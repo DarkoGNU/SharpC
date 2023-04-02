@@ -6,6 +6,7 @@ public class Car: IComparable<Car> {
 
     public Car(string Color, string Brand, double MaxSpeed)
     {
+        this.ID = Guid.NewGuid();
         this.Color = Color; // a to z
         this.Brand = Brand; // a to z
         this.MaxSpeed = MaxSpeed; // sort descending
@@ -13,7 +14,7 @@ public class Car: IComparable<Car> {
 
     public override string ToString()
     {
-        return string.Format("{0} {1}, top speed: {2:0.00} km/h", Color, Brand, MaxSpeed);
+        return string.Format("{0} {1}, top speed: {2:0.00} km/h (ID: {3})", Color, Brand, MaxSpeed, ID);
     }
 
     public int CompareTo(Car? compared)
